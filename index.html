@@ -20,6 +20,8 @@
       --botgen-b:  #4F8CFF;
       --target-a:  #2D7DFF;
       --target-b:  #2DD4BF;
+      --pair-a:    #F472B6;
+      --pair-b:    #8B5CF6;
     }
 
     html { scroll-behavior: smooth; }
@@ -164,6 +166,7 @@
 
     .botgen-icon  { background: linear-gradient(135deg, var(--botgen-a), var(--botgen-b)); }
     .target-icon  { background: linear-gradient(135deg, var(--target-a), var(--target-b)); }
+    .pair-icon    { background: linear-gradient(135deg, var(--pair-a), var(--pair-b)); }
 
     .badge {
       font-size: 11px;
@@ -184,6 +187,7 @@
 
     .botgen-name  { background: linear-gradient(90deg, var(--botgen-a), var(--botgen-b)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .target-name  { background: linear-gradient(90deg, var(--target-a), var(--target-b)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .pair-name    { background: linear-gradient(90deg, var(--pair-a), var(--pair-b)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
     .product-desc {
       font-size: 15px;
@@ -202,6 +206,7 @@
 
     .botgen-cta  { color: var(--botgen-b); }
     .target-cta  { color: var(--target-b); }
+    .pair-cta    { color: var(--pair-b); }
 
     .product-cta svg { transition: transform .2s; }
     .product-card:hover .product-cta svg { transform: translateX(4px); }
@@ -363,6 +368,22 @@
           <div class="product-name target-name">AI Targetolog</div>
           <p class="product-desc">Your AI media buyer for Facebook &amp; Instagram ads. Built for SMBs that can't hire a full-time marketer — campaign setup, audience targeting, and copy in minutes.</p>
           <span class="product-cta target-cta">
+            Learn more
+            <svg width="14" height="14" fill="none" viewBox="0 0 14 14">
+              <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </a>
+
+        <!-- PairBridge -->
+        <a href="./pairbridge/" class="product-card">
+          <div class="product-card-top">
+            <div class="product-icon pair-icon">💞</div>
+            <span class="badge">Launching soon</span>
+          </div>
+          <div class="product-name pair-name">PairBridge</div>
+          <p class="product-desc">An AI communication mediator for couples in Telegram. Two private rooms and a consent-based bridge that delivers what you mean — without the venom. Not therapy; a better way to be heard.</p>
+          <span class="product-cta pair-cta">
             Learn more
             <svg width="14" height="14" fill="none" viewBox="0 0 14 14">
               <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>

@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PairBridge — AI Communication Mediator for Couples</title>
+  <meta name="description" content="PairBridge is an AI communication mediator for couples in Telegram. Two private channels, a consent-based bridge. Hear each other — without the noise." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0B0F19;
+      --surface: #131A2A;
+      --border: rgba(255,255,255,.08);
+      --text: #E6EAF2;
+      --muted: #8A94A8;
+      --accent-1: #F472B6;
+      --accent-2: #8B5CF6;
+      --max: 1080px;
+      --radius: 1rem;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: .65rem 1.4rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: .9rem;
+      cursor: pointer;
+      transition: opacity .2s, transform .2s;
+    }
+    .btn:hover { opacity: .85; transform: translateY(-1px); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      color: #fff;
+      border: none;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn-outline:hover { border-color: rgba(255,255,255,.2); }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(11,15,25,.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: .9rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .wordmark {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.8rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: .9rem;
+      color: var(--muted);
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    @media (max-width: 600px) {
+      .nav-links li:not(:last-child) { display: none; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 5rem 1.5rem 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    @media (max-width: 780px) {
+      .hero { grid-template-columns: 1fr; gap: 3rem; padding-top: 3.5rem; }
+    }
+
+    .hero-eyebrow {
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .8rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -.03em;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 440px;
+      margin-bottom: 2rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: .8rem;
+      flex-wrap: wrap;
+    }
+
+    /* ── MOCKUP ── */
+    .mockup {
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+      font-size: .78rem;
+    }
+
+    .mockup-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .6rem;
+    }
+
+    .chat-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: .9rem;
+      display: flex;
+      flex-direction: column;
+      gap: .55rem;
+    }
+
+    .chat-label {
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .2rem;
+    }
+
+    .bubble {
+      border-radius: .65rem;
+      padding: .45rem .65rem;
+      max-width: 92%;
+      line-height: 1.4;
+    }
+
+    .bubble-user {
+      background: rgba(244,114,182,.18);
+      color: #fce7f3;
+      align-self: flex-end;
+    }
+
+    .bubble-bot {
+      background: rgba(139,92,246,.18);
+      color: #ede9fe;
+      align-self: flex-start;
+    }
+
+    .bridge-card {
+      background: var(--surface);
+      border: 1px solid rgba(139,92,246,.35);
+      border-radius: var(--radius);
+      padding: .9rem 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bridge-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(244,114,182,.06), rgba(139,92,246,.06));
+      pointer-events: none;
+    }
+
+    .bridge-top {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      margin-bottom: .55rem;
+    }
+
+    .bridge-icon {
+      width: 14px;
+      height: 14px;
+      border: 1.5px solid var(--accent-2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bridge-icon::after {
+      content: '';
+      width: 5px;
+      height: 5px;
+      background: var(--accent-2);
+      border-radius: 50%;
+    }
+
+    .bridge-msg {
+      color: var(--text);
+      line-height: 1.5;
+      font-size: .78rem;
+      margin-bottom: .5rem;
+    }
+
+    .consent-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      font-size: .65rem;
+      font-weight: 600;
+      color: var(--muted);
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      padding: .2rem .55rem;
+    }
+
+    .consent-dot {
+      width: 5px;
+      height: 5px;
+      background: #34d399;
+      border-radius: 50%;
+    }
+
+    /* ── SECTION ── */
+    section {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 5rem 1.5rem;
+    }
+
+    .section-label {
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .75rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-weight: 800;
+      letter-spacing: -.03em;
+      margin-bottom: 1rem;
+    }
+
+    .section-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin-bottom: 3rem;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 680px) {
+      .steps { grid-template-columns: 1fr; }
+    }
+
+    .step-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      position: relative;
+      transition: border-color .2s;
+    }
+    .step-card:hover { border-color: rgba(139,92,246,.4); }
+
+    .step-num {
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: .75rem;
+    }
+
+    .step-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: .5rem;
+    }
+
+    .step-desc {
+      font-size: .88rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ── FEATURES ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    @media (max-width: 780px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .features-grid { grid-template-columns: 1fr; }
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+      transition: border-color .2s, transform .2s;
+    }
+    .feature-card:hover { border-color: rgba(244,114,182,.3); transform: translateY(-2px); }
+
+    .feature-icon {
+      font-size: 1.5rem;
+      margin-bottom: .75rem;
+      display: block;
+    }
+
+    .feature-title {
+      font-size: .95rem;
+      font-weight: 700;
+      margin-bottom: .4rem;
+    }
+
+    .feature-desc {
+      font-size: .83rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ── DISCLAIMER BAND ── */
+    .disclaimer-band {
+      background: rgba(244,114,182,.07);
+      border-top: 1px solid rgba(244,114,182,.15);
+      border-bottom: 1px solid rgba(244,114,182,.15);
+    }
+
+    .disclaimer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      flex-wrap: wrap;
+    }
+
+    .disclaimer-icon {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .disclaimer-text {
+      font-size: .88rem;
+      color: var(--muted);
+    }
+
+    .disclaimer-text strong {
+      color: var(--text);
+    }
+
+    /* ── WAITLIST ── */
+    #waitlist {
+      padding-top: 5rem;
+      padding-bottom: 5rem;
+    }
+
+    .waitlist-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 1.5rem;
+      padding: 3rem 2rem;
+      text-align: center;
+      max-width: 540px;
+      margin: 0 auto;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .waitlist-wrap::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(244,114,182,.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .waitlist-wrap h2 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      letter-spacing: -.03em;
+      margin-bottom: .6rem;
+    }
+
+    .waitlist-sub {
+      font-size: .95rem;
+      color: var(--muted);
+      margin-bottom: 1.8rem;
+    }
+
+    .waitlist-form {
+      display: flex;
+      gap: .6rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .waitlist-input {
+      flex: 1;
+      min-width: 200px;
+      padding: .7rem 1rem;
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--border);
+      border-radius: 9999px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: .9rem;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .waitlist-input::placeholder { color: var(--muted); }
+    .waitlist-input:focus { border-color: rgba(139,92,246,.5); }
+
+    .waitlist-note {
+      font-size: .75rem;
+      color: var(--muted);
+      margin-top: .9rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: .25rem;
+    }
+
+    .footer-logo {
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+    }
+
+    .footer-by {
+      font-size: .78rem;
+      color: var(--muted);
+    }
+
+    .footer-by a {
+      color: var(--muted);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      transition: color .2s;
+    }
+    .footer-by a:hover { color: var(--text); }
+
+    .footer-links {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      font-size: .82rem;
+      color: var(--muted);
+      transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--text); }
+
+    .footer-copy {
+      font-size: .78rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="./" class="wordmark gradient-text">PairBridge</a>
+      <ul class="nav-links">
+        <li><a href="#how-it-works">How it works</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#waitlist" class="btn btn-primary">Join waitlist</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-copy">
+      <p class="hero-eyebrow">AI mediator for couples · Telegram</p>
+      <h1>When you stop hearing each other, talk through a <span class="gradient-text">bridge</span>.</h1>
+      <p class="hero-sub">PairBridge gives each partner a private space to vent — then, with your consent, delivers only what matters to your partner: the feeling, the need, and the request. Without the blame.</p>
+      <div class="hero-actions">
+        <a href="#waitlist" class="btn btn-primary">Join the waitlist</a>
+        <a href="#how-it-works" class="btn btn-outline">See how it works</a>
+      </div>
+    </div>
+
+    <!-- CSS MOCKUP -->
+    <div class="mockup">
+      <div class="mockup-row">
+        <!-- Partner A panel -->
+        <div class="chat-panel">
+          <div class="chat-label">Alex · Private</div>
+          <div class="bubble bubble-user">"You're ALWAYS late. You don't care."</div>
+          <div class="bubble bubble-bot">I hear you — that waiting feels like you don't matter. What were you actually needing tonight?</div>
+          <div class="bubble bubble-user">"Just… to feel like a priority."</div>
+          <div class="bubble bubble-bot">That's it. Ready to send this to Jordan?</div>
+        </div>
+        <!-- Partner B panel -->
+        <div class="chat-panel">
+          <div class="chat-label">Jordan · Private</div>
+          <div class="bubble bubble-user">"Nothing. Everything's fine."</div>
+          <div class="bubble bubble-bot">I noticed your pulse dipped today. Want to journal for a minute?</div>
+          <div class="bubble bubble-user">"Maybe… I felt disconnected."</div>
+          <div class="bubble bubble-bot">Thanks for sharing that. Alex has something to tell you.</div>
+        </div>
+      </div>
+
+      <!-- Bridge card -->
+      <div class="bridge-card">
+        <div class="bridge-top">
+          <div class="bridge-icon"></div>
+          Bridge · Delivered to Jordan
+        </div>
+        <p class="bridge-msg">"I felt anxious waiting tonight. Being on time tells me I matter to you. Could you text me if you're running 30+ minutes late?"</p>
+        <span class="consent-tag"><span class="consent-dot"></span>Sent with Alex's consent</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section id="how-it-works">
+    <p class="section-label">The process</p>
+    <h2 class="section-title">Three steps to being <span class="gradient-text">actually heard</span></h2>
+    <p class="section-sub">No appointments. No waiting rooms. Happens at 11:47pm on a Tuesday if that's when you need it.</p>
+
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-title">Vent privately to the bot</div>
+        <p class="step-desc">Say everything — the venom, the frustration, the unfair comparison. Your partner never sees this. The bot validates what you feel and helps you slow down enough to find what's underneath.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-title">Find the real need</div>
+        <p class="step-desc">Guided by NVC and Gottman principles, the bot helps you separate the complaint from the need. "You never listen" becomes "I need to feel seen." That's the thing worth saying.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-title">The bridge delivers it — with consent</div>
+        <p class="step-desc">Only when you approve, the bot delivers the distilled message to your partner: feeling + need + a concrete, actionable request. No blame, no contempt. Just the signal — finally stripped of noise.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <p class="section-label">What you get</p>
+    <h2 class="section-title">Built for real couples, <span class="gradient-text">real arguments</span></h2>
+    <p class="section-sub">A small toolkit with an outsized impact on the day-to-day texture of a relationship.</p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <span class="feature-icon">🔒</span>
+        <div class="feature-title">Two private rooms, one consent-based bridge</div>
+        <p class="feature-desc">Each partner has their own private channel. The bridge carries only what you explicitly approve — never anything else.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">📐</span>
+        <div class="feature-title">Built on Gottman, EFT & NVC frameworks</div>
+        <p class="feature-desc">The bot's logic draws on the Gottman Method's Four Horsemen, Emotionally Focused Therapy de-escalation, Nonviolent Communication, and Imago dialogue.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">📊</span>
+        <div class="feature-title">Daily relationship pulse</div>
+        <p class="feature-desc">Each partner rates their day 1–10 and journals briefly. The bot spots declines and divergence early — before small distance turns into resentment.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🧑</span>
+        <div class="feature-title">Works solo until your partner joins</div>
+        <p class="feature-desc">Partner not ready yet? The bot coaches you solo — helping you prepare a hard conversation, anticipate reactions, and soften your approach before you even send the invite.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🛡</span>
+        <div class="feature-title">Encrypted & private by design</div>
+        <p class="feature-desc">Messages are encrypted at rest. AI use is disclosed. Your private room stays private. Nothing crosses the bridge without your explicit go-ahead.</p>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">📱</span>
+        <div class="feature-title">24/7 in Telegram — no appointments</div>
+        <p class="feature-desc">A couples therapist costs $80–150 per session and is booked weeks ahead. Conflicts don't follow business hours. PairBridge is always open.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DISCLAIMER BAND -->
+  <div class="disclaimer-band">
+    <div class="disclaimer-inner">
+      <span class="disclaimer-icon">ℹ️</span>
+      <p class="disclaimer-text"><strong>PairBridge is a communication assistant, not therapy or a substitute for professional help.</strong> It does not provide medical advice, diagnosis, or treatment. If you or your partner are in crisis, please contact a local mental health service or emergency line.</p>
+    </div>
+  </div>
+
+  <!-- WAITLIST -->
+  <section id="waitlist">
+    <div class="waitlist-wrap">
+      <h2>Get early access</h2>
+      <p class="waitlist-sub">PairBridge is launching soon. Join the waitlist and we'll let you know when your bridge is ready.</p>
+      <form
+        class="waitlist-form"
+        action="https://formsubmit.co/vladislav.poddubotski@gmail.com"
+        method="POST"
+      >
+        <input type="hidden" name="_subject" value="PairBridge waitlist" />
+        <input type="hidden" name="_captcha" value="false" />
+        <input
+          class="waitlist-input"
+          type="email"
+          name="email"
+          placeholder="your@email.com"
+          required
+          autocomplete="email"
+        />
+        <button type="submit" class="btn btn-primary">Join waitlist</button>
+      </form>
+      <p class="waitlist-note">No spam. Just a heads-up when we launch. Unsubscribe anytime.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-left">
+        <span class="footer-logo gradient-text">PairBridge</span>
+        <span class="footer-by">A product by <a href="../">Vladislav Poddubotski</a></span>
+      </div>
+      <div class="footer-links">
+        <a href="./privacy.html">Privacy Policy</a>
+        <a href="./terms.html">Terms of Service</a>
+      </div>
+      <span class="footer-copy">© 2026 PairBridge. Founded 2026.</span>
+    </div>
+  </footer>
+
+</body>
+</html>

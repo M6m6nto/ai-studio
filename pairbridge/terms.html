@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Service — PairBridge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0B0F19;
+      --surface: #131A2A;
+      --border: rgba(255,255,255,.08);
+      --text: #E6EAF2;
+      --muted: #8A94A8;
+      --accent-1: #F472B6;
+      --accent-2: #8B5CF6;
+      --max: 1080px;
+      --radius: 1rem;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(11,15,25,.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: .9rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .wordmark {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+    }
+
+    .nav-back {
+      font-size: .85rem;
+      color: var(--muted);
+      transition: color .2s;
+    }
+    .nav-back:hover { color: var(--text); }
+
+    .page-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem 6rem;
+    }
+
+    .page-eyebrow {
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: .6rem;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 800;
+      letter-spacing: -.03em;
+      margin-bottom: .5rem;
+    }
+
+    .effective {
+      font-size: .85rem;
+      color: var(--muted);
+      margin-bottom: 3rem;
+    }
+
+    .section-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .section-block h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: .8rem;
+      color: var(--text);
+    }
+
+    .section-block p,
+    .section-block li {
+      font-size: .9rem;
+      color: var(--muted);
+      margin-bottom: .6rem;
+    }
+
+    .section-block li:last-child { margin-bottom: 0; }
+
+    .section-block ul {
+      padding-left: 1.2rem;
+    }
+
+    .section-block a {
+      color: var(--accent-1);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .alert-box {
+      background: rgba(248,113,113,.07);
+      border: 1px solid rgba(248,113,113,.22);
+      border-radius: .75rem;
+      padding: 1rem 1.2rem;
+      font-size: .88rem;
+      color: var(--text);
+      margin-bottom: 1.2rem;
+    }
+
+    .alert-box strong { color: #fca5a5; }
+
+    footer {
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 1.6rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.2rem;
+    }
+
+    .footer-links a,
+    .footer-copy {
+      font-size: .82rem;
+      color: var(--muted);
+      transition: color .2s;
+    }
+
+    .footer-links a:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="./" class="wordmark gradient-text">PairBridge</a>
+      <a href="./" class="nav-back">← Back to home</a>
+    </div>
+  </nav>
+
+  <div class="page-wrap">
+    <p class="page-eyebrow">Legal</p>
+    <h1>Terms of Service</h1>
+    <p class="effective">Effective date: June 2026</p>
+
+    <div class="alert-box">
+      <strong>Not therapy. Not a crisis service.</strong> PairBridge is a communication assistant. It is not a substitute for licensed therapy, psychological counselling, or any form of medical or mental health treatment. If you or your partner are experiencing a mental health crisis, please contact your local emergency services or a crisis helpline immediately.
+    </div>
+
+    <div class="section-block">
+      <h2>1. Acceptance of terms</h2>
+      <p>By accessing or using PairBridge (the "Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree, do not use the Service. These Terms form a binding agreement between you and Vladislav Poddubotski, the operator of PairBridge ("we", "us", "our").</p>
+    </div>
+
+    <div class="section-block">
+      <h2>2. Early access</h2>
+      <p>PairBridge is currently in early access / launch phase. The Service is provided "as is" during this period. Features, pricing, and availability may change. We reserve the right to modify, suspend, or discontinue any aspect of the Service at any time, with reasonable notice where practical.</p>
+    </div>
+
+    <div class="section-block">
+      <h2>3. Eligibility</h2>
+      <p>You must be at least 18 years old to use PairBridge. By using the Service, you represent and warrant that you meet this age requirement. We do not knowingly permit use by anyone under 18.</p>
+    </div>
+
+    <div class="section-block">
+      <h2>4. Nature of the service — not therapy, not medical care</h2>
+      <ul>
+        <li>PairBridge is a communication and mediation assistant. It draws on communication frameworks (Gottman Method, EFT, NVC, Imago dialogue) as operational logic. It does not constitute therapy, psychological counselling, medical advice, diagnosis, or treatment of any kind.</li>
+        <li>Using PairBridge does not establish a therapist-client, doctor-patient, or any other professional relationship.</li>
+        <li>PairBridge does not make clinical claims about outcomes or effectiveness.</li>
+        <li>If you or your partner are experiencing mental health difficulties, domestic abuse, substance issues, or any crisis situation, please seek help from a qualified professional. In an emergency, contact local emergency services.</li>
+      </ul>
+    </div>
+
+    <div class="section-block">
+      <h2>5. Your responsibilities</h2>
+      <ul>
+        <li>You are responsible for all content you submit to the Service.</li>
+        <li>You agree not to use PairBridge to harass, threaten, abuse, or harm any person.</li>
+        <li>You agree not to attempt to reverse-engineer, scrape, or disrupt the Service.</li>
+        <li>You are responsible for ensuring your partner has given their informed consent to use PairBridge and to receive bridge messages.</li>
+        <li>You will not circumvent the consent mechanism to deliver messages without your partner's knowledge or agreement.</li>
+      </ul>
+    </div>
+
+    <div class="section-block">
+      <h2>6. Privacy & data</h2>
+      <p>Your use of PairBridge is also governed by our <a href="./privacy.html">Privacy Policy</a>, which is incorporated into these Terms by reference. By using the Service, you consent to the data practices described therein.</p>
+    </div>
+
+    <div class="section-block">
+      <h2>7. Intellectual property</h2>
+      <p>All content, design, code, and materials in PairBridge are the property of Vladislav Poddubotski or licensed to us. You may not copy, reproduce, or distribute them without written permission. You retain ownership of the content you submit to the Service.</p>
+    </div>
+
+    <div class="section-block">
+      <h2>8. Disclaimer of warranties</h2>
+      <p>The Service is provided "as is" and "as available" without warranties of any kind, express or implied. We do not warrant that the Service will be uninterrupted, error-free, or that it will produce any particular outcome in your relationship. You use the Service at your own discretion and risk.</p>
+    </div>
+
+    <div class="section-block">
+      <h2>9. Limitation of liability</h2>
+      <p>To the maximum extent permitted by applicable law, we shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of, or inability to use, the Service. This includes but is not limited to relationship outcomes, emotional distress, or decisions made based on content generated by the Service.</p>
+    </div>
+
+    <div class="section-block">
+      <h2>10. Changes to terms</h2>
+      <p>We may update these Terms from time to time. We will notify you of material changes by updating the effective date and, where appropriate, by notifying waitlist subscribers via email. Continued use of the Service after changes are posted constitutes your acceptance of the revised Terms.</p>
+    </div>
+
+    <div class="section-block">
+      <h2>11. Governing law</h2>
+      <p>These Terms are governed by applicable law. Any disputes will be resolved in good faith through direct negotiation first. If you have a concern, please reach out to us before pursuing any formal action.</p>
+    </div>
+
+    <div class="section-block">
+      <h2>12. Contact</h2>
+      <p>For questions about these Terms, contact us at <a href="mailto:vladislav.poddubotski@gmail.com">vladislav.poddubotski@gmail.com</a>.</p>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">© 2026 PairBridge</span>
+      <div class="footer-links">
+        <a href="./privacy.html">Privacy Policy</a>
+        <a href="./terms.html">Terms of Service</a>
+        <a href="./">Home</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
