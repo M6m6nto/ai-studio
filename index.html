@@ -360,6 +360,38 @@
       .founder-socials { flex-direction: row; width: 100%; }
     }
 
+    /* ── TRACTION ── */
+    .traction { padding: 0 0 8px; }
+
+    .traction-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -.03em;
+      background: linear-gradient(90deg, var(--botgen-a), var(--target-b));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
     /* ── STORY ── */
     .story { padding: 0 0 72px; }
 
@@ -451,6 +483,26 @@
     <div class="container">
       <h1>AI products that replace what small&nbsp;businesses can't afford</h1>
       <p>A solo-founder studio shipping production AI products fast — real tools, no vaporware. Founded 2026, bootstrapped.</p>
+    </div>
+  </section>
+
+  <!-- TRACTION -->
+  <section class="traction">
+    <div class="container">
+      <div class="traction-grid">
+        <div class="stat-card">
+          <div class="stat-num">428</div>
+          <div class="stat-label">people on product waitlists</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">400K+</div>
+          <div class="stat-label">monthly blog reach</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">3</div>
+          <div class="stat-label">production AI products</div>
+        </div>
+      </div>
     </div>
   </section>
 
