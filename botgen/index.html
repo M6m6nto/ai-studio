@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BotGEN — Build Telegram Bots by Chatting</title>
+  <meta name="description" content="Describe your bot in plain language. AI assembles the config. Your Telegram bot goes live in minutes. No code, no flowcharts.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0B0F19;
+      --surface: #131A2A;
+      --border: rgba(255,255,255,.08);
+      --text: #E6EAF2;
+      --muted: #8A94A8;
+      --accent-a: #7C5CFF;
+      --accent-b: #4F8CFF;
+      --radius: 16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── GRADIENT UTILS ── */
+    .gradient-text {
+      background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(11,15,25,.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .wordmark {
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 500;
+      transition: color .2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 22px;
+      border-radius: 10px;
+      font-size: .9rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity .2s, transform .15s;
+      border: none;
+    }
+
+    .btn:hover { opacity: .88; transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+
+    .btn-primary {
+      background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+      color: #fff;
+    }
+
+    .btn-lg {
+      padding: 14px 32px;
+      font-size: 1rem;
+      border-radius: 12px;
+    }
+
+    /* ── HERO ── */
+    #hero {
+      padding: 96px 0 80px;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .hero-copy h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -.03em;
+      margin-bottom: 20px;
+    }
+
+    .hero-copy p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 36px;
+      max-width: 440px;
+    }
+
+    /* ── CHAT MOCKUP ── */
+    .chat-mockup {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,.5);
+    }
+
+    .chat-header {
+      background: #1A2238;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .chat-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-a), var(--accent-b));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .85rem;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .chat-header-info .name {
+      font-size: .9rem;
+      font-weight: 600;
+    }
+
+    .chat-header-info .status {
+      font-size: .75rem;
+      color: #4ADE80;
+    }
+
+    .chat-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .bubble {
+      max-width: 85%;
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: .875rem;
+      line-height: 1.5;
+    }
+
+    .bubble-user {
+      background: linear-gradient(135deg, var(--accent-a), var(--accent-b));
+      color: #fff;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+    }
+
+    .bubble-bot {
+      background: #1E2A42;
+      color: var(--text);
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+    }
+
+    .bubble-bot .bot-tag {
+      font-size: .7rem;
+      color: var(--accent-b);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .typing {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      padding: 12px 16px;
+    }
+
+    .typing span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--muted);
+      animation: blink 1.2s infinite;
+    }
+
+    .typing span:nth-child(2) { animation-delay: .2s; }
+    .typing span:nth-child(3) { animation-delay: .4s; }
+
+    @keyframes blink {
+      0%, 80%, 100% { opacity: .3; }
+      40% { opacity: 1; }
+    }
+
+    /* ── SECTION SHARED ── */
+    section {
+      padding: 80px 0;
+    }
+
+    .section-label {
+      font-size: .8rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent-b);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 800;
+      letter-spacing: -.02em;
+      margin-bottom: 16px;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 560px;
+    }
+
+    /* ── HOW IT WORKS ── */
+    #how-it-works {
+      border-top: 1px solid var(--border);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-top: 56px;
+    }
+
+    .step {
+      position: relative;
+    }
+
+    .step-number {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--accent-a), var(--accent-b));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .step h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .step p {
+      color: var(--muted);
+      font-size: .925rem;
+      line-height: 1.65;
+    }
+
+    .step-connector {
+      position: absolute;
+      top: 24px;
+      right: -16px;
+      width: 32px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+      opacity: .4;
+    }
+
+    /* ── FEATURES ── */
+    #features {
+      border-top: 1px solid var(--border);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 56px;
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      transition: border-color .25s, transform .2s;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(124,92,255,.4);
+      transform: translateY(-3px);
+    }
+
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: rgba(124,92,255,.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 16px;
+    }
+
+    .feature-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .feature-card p {
+      color: var(--muted);
+      font-size: .875rem;
+      line-height: 1.6;
+    }
+
+    /* ── STATUS BAND ── */
+    #status {
+      padding: 0;
+    }
+
+    .status-band {
+      background: linear-gradient(90deg, rgba(124,92,255,.12), rgba(79,140,255,.12));
+      border-top: 1px solid rgba(124,92,255,.25);
+      border-bottom: 1px solid rgba(124,92,255,.25);
+      padding: 24px 0;
+      text-align: center;
+    }
+
+    .status-band .badge {
+      display: inline-block;
+      background: rgba(124,92,255,.2);
+      border: 1px solid rgba(124,92,255,.4);
+      color: #A78BFF;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: .78rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .status-band p {
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .status-band strong { color: var(--text); }
+
+    /* ── WAITLIST ── */
+    #waitlist {
+      border-top: 1px solid var(--border);
+    }
+
+    .waitlist-inner {
+      max-width: 520px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .waitlist-inner .section-sub {
+      margin: 0 auto 40px;
+    }
+
+    .waitlist-form {
+      display: flex;
+      gap: 12px;
+    }
+
+    .waitlist-form input[type="email"] {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px 18px;
+      color: var(--text);
+      font-size: .95rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    .waitlist-form input[type="email"]:focus {
+      border-color: var(--accent-a);
+    }
+
+    .waitlist-form input[type="email"]::placeholder { color: var(--muted); }
+
+    .form-note {
+      margin-top: 14px;
+      font-size: .8rem;
+      color: var(--muted);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 36px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .footer-copy {
+      font-size: .85rem;
+      color: var(--muted);
+    }
+
+    .footer-by {
+      font-size: .8rem;
+      color: var(--muted);
+    }
+
+    .footer-by a {
+      color: var(--accent-b);
+      text-decoration: none;
+    }
+
+    .footer-by a:hover { text-decoration: underline; }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-links a {
+      font-size: .85rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .footer-links a:hover { color: var(--text); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .steps {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .step-connector { display: none; }
+
+      .features-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .waitlist-form {
+        flex-direction: column;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        gap: 20px;
+      }
+
+      .nav-links li:not(:last-child) {
+        display: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="container">
+    <a href="#" class="wordmark">BotGEN</a>
+    <ul class="nav-links">
+      <li><a href="#how-it-works">How it works</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#waitlist" class="btn btn-primary">Join waitlist</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-inner">
+
+      <div class="hero-copy">
+        <h1>Describe your bot.<br><span class="gradient-text">Get it live in minutes.</span></h1>
+        <p>No code, no flowchart editors. Just tell BotGEN what you need — AI assembles the configuration, the engine deploys your Telegram bot instantly.</p>
+        <a href="#waitlist" class="btn btn-primary btn-lg">Join the waitlist</a>
+      </div>
+
+      <div class="chat-mockup">
+        <div class="chat-header">
+          <div class="chat-avatar">BG</div>
+          <div class="chat-header-info">
+            <div class="name">BotGEN Constructor</div>
+            <div class="status">online</div>
+          </div>
+        </div>
+        <div class="chat-body">
+          <div class="bubble bubble-user">
+            I need a bot that answers FAQs for my coffee shop and collects customer orders
+          </div>
+          <div class="bubble bubble-bot">
+            <div class="bot-tag">BotGEN Constructor</div>
+            Got it! I'll create an FAQ + lead-gen bot for your coffee shop. It will handle common questions and capture orders with customer contact info.
+          </div>
+          <div class="bubble bubble-user">
+            Yes, also add our opening hours: Mon–Fri 8am–8pm
+          </div>
+          <div class="bubble bubble-bot">
+            <div class="bot-tag">BotGEN Constructor</div>
+            Added. Your bot is configured and deploying now — it'll be live on Telegram in seconds. You can edit it anytime by chatting with me here.
+          </div>
+          <div class="bubble bubble-bot" style="padding: 0;">
+            <div class="typing">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── HOW IT WORKS ── -->
+<section id="how-it-works">
+  <div class="container">
+    <div class="section-label">How it works</div>
+    <h2 class="section-title">Three steps from idea to live bot</h2>
+    <p class="section-sub">BotGEN removes every technical barrier between your idea and a working Telegram bot.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <h3>Chat with the constructor</h3>
+        <p>Open the BotGEN constructor on Telegram and describe what your bot should do in plain language — no jargon required.</p>
+        <div class="step-connector"></div>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <h3>AI assembles your bot's config</h3>
+        <p>Claude by Anthropic interprets your description and generates a complete bot configuration — flows, responses, and logic.</p>
+        <div class="step-connector"></div>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <h3>Your bot goes live instantly</h3>
+        <p>The BotGEN engine deploys your bot via webhooks. Your Telegram bot is live and responding to users within seconds.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURES ── -->
+<section id="features">
+  <div class="container">
+    <div class="section-label">Features</div>
+    <h2 class="section-title">Everything you need, nothing you don't</h2>
+    <p class="section-sub">Built for small businesses and freelancers who want powerful bots without engineering overhead.</p>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3>No-code conversational builder</h3>
+        <p>Describe your bot in plain language. No visual editors, no flowcharts, no programming knowledge needed.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🤖</div>
+        <h3>Powered by Claude (Anthropic)</h3>
+        <p>Bot configurations are generated by Claude, one of the most capable AI models available, ensuring accurate and nuanced results.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <h3>FAQ &amp; lead-gen templates</h3>
+        <p>Start with proven bot patterns — answer customer questions, collect leads, capture orders. More templates coming.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Instant webhook deployment</h3>
+        <p>The BotGEN engine registers your bot's webhook and has it responding to real users in seconds, not hours.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">✏️</div>
+        <h3>Edit your bot by chatting</h3>
+        <p>Need to update your FAQ or change a response? Just message the constructor. Changes deploy automatically.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔑</div>
+        <h3>Your bot, your token</h3>
+        <p>Your Telegram bot token stays yours. BotGEN connects to your existing bot — you retain full ownership and control.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STATUS BAND ── -->
+<section id="status">
+  <div class="status-band">
+    <div class="container">
+      <div class="badge">Launching soon</div>
+      <p><strong>BotGEN is in final preparation.</strong> Sign up below to be first in line when we open access.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── WAITLIST ── -->
+<section id="waitlist">
+  <div class="container">
+    <div class="waitlist-inner">
+      <div class="section-label">Early access</div>
+      <h2 class="section-title">Join the waitlist</h2>
+      <p class="section-sub">Be among the first to build your Telegram bot with BotGEN. We'll notify you the moment early access opens.</p>
+
+      <form
+        class="waitlist-form"
+        action="https://formsubmit.co/vladislav.poddubotski@gmail.com"
+        method="POST"
+      >
+        <input type="hidden" name="_subject" value="BotGEN waitlist">
+        <input type="hidden" name="_captcha" value="false">
+        <input
+          type="email"
+          name="email"
+          placeholder="your@email.com"
+          required
+          autocomplete="email"
+        >
+        <button type="submit" class="btn btn-primary btn-lg">Get early access</button>
+      </form>
+      <p class="form-note">No spam. Just one email when we launch.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <span class="footer-copy">© 2026 BotGEN. All rights reserved.</span>
+        <span class="footer-by">A product by <a href="../" target="_blank">Vladislav Poddubotski</a></span>
+      </div>
+      <div class="footer-links">
+        <a href="./privacy.html">Privacy Policy</a>
+        <a href="./terms.html">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

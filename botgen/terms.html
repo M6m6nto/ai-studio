@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terms of Service — BotGEN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0B0F19;
+      --surface: #131A2A;
+      --border: rgba(255,255,255,.08);
+      --text: #E6EAF2;
+      --muted: #8A94A8;
+      --accent-a: #7C5CFF;
+      --accent-b: #4F8CFF;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    nav {
+      background: rgba(11,15,25,.9);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+
+    nav .inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .wordmark {
+      font-size: 1.2rem;
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-decoration: none;
+    }
+
+    nav a.back {
+      font-size: .875rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    nav a.back:hover { color: var(--text); }
+
+    main {
+      max-width: 720px;
+      margin: 64px auto 96px;
+      padding: 0 24px;
+    }
+
+    .page-title {
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      margin-bottom: 8px;
+    }
+
+    .effective {
+      font-size: .875rem;
+      color: var(--muted);
+      margin-bottom: 48px;
+    }
+
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 40px 0 12px;
+      color: var(--text);
+    }
+
+    p {
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    ul {
+      color: var(--muted);
+      padding-left: 20px;
+      margin-bottom: 16px;
+    }
+
+    ul li { margin-bottom: 6px; }
+
+    a { color: var(--accent-b); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .highlight-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+
+    .highlight-box p {
+      margin-bottom: 0;
+      font-size: .9rem;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 24px;
+      text-align: center;
+      font-size: .85rem;
+      color: var(--muted);
+    }
+
+    footer a { color: var(--muted); margin: 0 10px; }
+    footer a:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="inner">
+    <a href="./index.html" class="wordmark">BotGEN</a>
+    <a href="./index.html" class="back">← Back to home</a>
+  </div>
+</nav>
+
+<main>
+  <h1 class="page-title">Terms of Service</h1>
+  <p class="effective">Effective date: June 2026</p>
+
+  <p>These Terms of Service ("Terms") govern your access to and use of BotGEN, including the website, the constructor bot on Telegram, and all related services (collectively, the "Service"), operated by Vladislav Poddubotski ("we", "us", or "our").</p>
+  <p>By joining the waitlist or using the Service, you agree to these Terms. If you do not agree, please do not use the Service.</p>
+
+  <div class="highlight-box">
+    <p><strong style="color: var(--text);">Early-access product.</strong> BotGEN is currently in early development and provided on an as-is, as-available basis. Features, availability, and terms may change as we build toward launch.</p>
+  </div>
+
+  <h2>1. Eligibility</h2>
+  <p>You must be at least 16 years old and capable of forming a binding agreement to use the Service. By using BotGEN, you represent that you meet these requirements.</p>
+
+  <h2>2. Description of Service</h2>
+  <p>BotGEN provides a conversational interface (the "constructor bot") that allows you to describe a Telegram bot in plain language. Using AI (Claude by Anthropic), BotGEN generates a bot configuration and deploys a Telegram bot on your behalf using a Telegram bot token you provide.</p>
+
+  <h2>3. Your Telegram Bot Token</h2>
+  <p>To deploy a bot, you provide BotGEN with a Telegram bot token issued to you by Telegram's BotFather. You retain full ownership of your bot token and the bot registered with Telegram. You are responsible for keeping your token secure. You may revoke BotGEN's access at any time by resetting your token in BotFather.</p>
+
+  <h2>4. Acceptable Use</h2>
+  <p>You agree to use BotGEN only for lawful purposes and in accordance with these Terms. You must not use the Service to create or operate bots that:</p>
+  <ul>
+    <li>Send unsolicited bulk messages (spam) or engage in any form of automated harassment.</li>
+    <li>Promote, distribute, or facilitate illegal content or activities.</li>
+    <li>Deceive users, impersonate individuals or organizations, or engage in phishing.</li>
+    <li>Violate Telegram's <a href="https://telegram.org/tos" target="_blank" rel="noopener">Terms of Service</a> or Bot API Terms.</li>
+    <li>Infringe upon the intellectual property rights of others.</li>
+    <li>Collect personal data from Telegram users without appropriate disclosure and consent.</li>
+    <li>Interfere with or disrupt the BotGEN service or its underlying infrastructure.</li>
+  </ul>
+  <p>We reserve the right to suspend or terminate access to the Service for any user whose bots or conduct violates these rules, at our sole discretion and without prior notice.</p>
+
+  <h2>5. AI-Generated Content</h2>
+  <p>Bot configurations are generated by AI and may occasionally be inaccurate, incomplete, or unsuitable for your specific use case. You are responsible for reviewing and, where applicable, testing the behavior of your deployed bot before directing real users to it.</p>
+
+  <h2>6. No Warranty</h2>
+  <p>The Service is provided "as is" and "as available" without warranties of any kind, express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, or non-infringement. We do not warrant that the Service will be uninterrupted, error-free, or that any defects will be corrected.</p>
+
+  <h2>7. Limitation of Liability</h2>
+  <p>To the fullest extent permitted by applicable law, BotGEN and Vladislav Poddubotski shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, or goodwill, arising out of or in connection with your use of or inability to use the Service, even if we have been advised of the possibility of such damages.</p>
+
+  <h2>8. Intellectual Property</h2>
+  <p>The BotGEN brand, website, and underlying platform are the intellectual property of Vladislav Poddubotski. Bot configurations generated for you are yours to use within the constraints of these Terms and Telegram's policies. You grant us a limited license to store and process your bot configuration data solely to provide the Service.</p>
+
+  <h2>9. Privacy</h2>
+  <p>Your use of the Service is also governed by our <a href="./privacy.html">Privacy Policy</a>, which is incorporated into these Terms by reference.</p>
+
+  <h2>10. Changes to the Terms</h2>
+  <p>We may update these Terms from time to time. We will notify waitlist subscribers of material changes by email. Continued use of the Service after the updated Terms take effect constitutes your acceptance of the new Terms.</p>
+
+  <h2>11. Governing Law</h2>
+  <p>These Terms are governed by and construed in accordance with applicable law. Any disputes arising under these Terms shall be resolved through good-faith negotiation in the first instance.</p>
+
+  <h2>12. Contact</h2>
+  <p>For questions about these Terms, please contact us at <a href="mailto:vladislav.poddubotski@gmail.com">vladislav.poddubotski@gmail.com</a>.</p>
+</main>
+
+<footer>
+  © 2026 BotGEN &nbsp;·&nbsp;
+  <a href="./privacy.html">Privacy Policy</a>
+  <a href="./terms.html">Terms of Service</a>
+  <a href="./index.html">Home</a>
+</footer>
+
+</body>
+</html>

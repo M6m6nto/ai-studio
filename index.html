@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Poddubotski AI Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0B0F19;
+      --surface:   #131A2A;
+      --border:    rgba(255,255,255,.08);
+      --text:      #E6EAF2;
+      --muted:     #8A94A8;
+      --botgen-a:  #7C5CFF;
+      --botgen-b:  #4F8CFF;
+      --target-a:  #2D7DFF;
+      --target-b:  #2DD4BF;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* ── Layout helpers ── */
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(11,15,25,.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+
+    .wordmark {
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: -.01em;
+      color: var(--text);
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      color: var(--muted);
+      transition: color .2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 96px 0 80px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 700;
+      letter-spacing: -.03em;
+      line-height: 1.15;
+      max-width: 780px;
+      margin: 0 auto 24px;
+      background: linear-gradient(135deg, #fff 40%, #8A94A8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    /* ── SECTION titles ── */
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-size: clamp(22px, 3.5vw, 32px);
+      font-weight: 700;
+      letter-spacing: -.02em;
+      margin-bottom: 40px;
+    }
+
+    /* ── PRODUCTS ── */
+    .products { padding: 72px 0; }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    .product-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: transform .25s, border-color .25s;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(255,255,255,.14);
+    }
+
+    .product-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .product-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .botgen-icon  { background: linear-gradient(135deg, var(--botgen-a), var(--botgen-b)); }
+    .target-icon  { background: linear-gradient(135deg, var(--target-a), var(--target-b)); }
+
+    .badge {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      padding: 4px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    .product-name {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -.02em;
+    }
+
+    .botgen-name  { background: linear-gradient(90deg, var(--botgen-a), var(--botgen-b)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .target-name  { background: linear-gradient(90deg, var(--target-a), var(--target-b)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+    .product-desc {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.65;
+      flex: 1;
+    }
+
+    .product-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .botgen-cta  { color: var(--botgen-b); }
+    .target-cta  { color: var(--target-b); }
+
+    .product-cta svg { transition: transform .2s; }
+    .product-card:hover .product-cta svg { transform: translateX(4px); }
+
+    /* ── APPROACH ── */
+    .approach { padding: 72px 0; }
+
+    .approach-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .approach-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+    }
+
+    .approach-icon {
+      font-size: 26px;
+      margin-bottom: 14px;
+    }
+
+    .approach-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      letter-spacing: -.01em;
+    }
+
+    .approach-body {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── CONTACT ── */
+    .contact { padding: 72px 0 64px; }
+
+    .contact-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 48px 40px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .contact-text h2 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      margin-bottom: 8px;
+    }
+
+    .contact-text p {
+      font-size: 15px;
+      color: var(--muted);
+    }
+
+    .contact-links {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      transition: background .2s, border-color .2s;
+    }
+
+    .contact-btn:hover {
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.16);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 0;
+      text-align: center;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="container nav-inner">
+      <span class="wordmark">Poddubotski AI Studio</span>
+      <div class="nav-links">
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <h1>AI products that replace what small&nbsp;businesses can't afford</h1>
+      <p>A solo-founder studio shipping production AI products fast — real tools, no vaporware. Founded 2026, bootstrapped.</p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PRODUCTS -->
+  <section class="products" id="products">
+    <div class="container">
+      <p class="section-label">Products</p>
+      <h2 class="section-title">What we're building</h2>
+
+      <div class="product-grid">
+
+        <!-- BotGEN -->
+        <a href="./botgen/" class="product-card">
+          <div class="product-card-top">
+            <div class="product-icon botgen-icon">🤖</div>
+            <span class="badge">Launching soon</span>
+          </div>
+          <div class="product-name botgen-name">BotGEN</div>
+          <p class="product-desc">Create Telegram bots by describing them in plain language. No code, no config — just describe what you need and it ships. Powered by Claude.</p>
+          <span class="product-cta botgen-cta">
+            Learn more
+            <svg width="14" height="14" fill="none" viewBox="0 0 14 14">
+              <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </a>
+
+        <!-- AI Targetolog -->
+        <a href="./aitargetolog/" class="product-card">
+          <div class="product-card-top">
+            <div class="product-icon target-icon">🎯</div>
+            <span class="badge">Launching soon</span>
+          </div>
+          <div class="product-name target-name">AI Targetolog</div>
+          <p class="product-desc">Your AI media buyer for Facebook &amp; Instagram ads. Built for SMBs that can't hire a full-time marketer — campaign setup, audience targeting, and copy in minutes.</p>
+          <span class="product-cta target-cta">
+            Learn more
+            <svg width="14" height="14" fill="none" viewBox="0 0 14 14">
+              <path d="M3 7h8M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- APPROACH -->
+  <section class="approach" id="approach">
+    <div class="container">
+      <p class="section-label">How we work</p>
+      <h2 class="section-title">The approach</h2>
+
+      <div class="approach-grid">
+
+        <div class="approach-card">
+          <div class="approach-icon">⚡</div>
+          <h3 class="approach-title">AI-native engineering</h3>
+          <p class="approach-body">Every product is designed around AI from the ground up — not bolted on. LLMs do the heavy lifting so users never have to.</p>
+        </div>
+
+        <div class="approach-card">
+          <div class="approach-icon">🚀</div>
+          <h3 class="approach-title">Ship fast, validate honestly</h3>
+          <p class="approach-body">Working software over slide decks. Features reach real users quickly, feedback drives what gets built next, and nothing is exaggerated.</p>
+        </div>
+
+        <div class="approach-card">
+          <div class="approach-icon">🏪</div>
+          <h3 class="approach-title">Small business first</h3>
+          <p class="approach-body">Every decision is made through the lens of a business owner wearing five hats at once — pricing, UX, and scope all follow from that constraint.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div class="contact-box">
+        <div class="contact-text">
+          <h2>Get in touch</h2>
+          <p>Questions, partnership ideas, or early access requests — reach out directly.</p>
+        </div>
+        <div class="contact-links">
+          <a href="mailto:vladislav.poddubotski@gmail.com" class="contact-btn">
+            <svg width="16" height="16" fill="none" viewBox="0 0 16 16">
+              <rect x="1" y="3" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.4"/>
+              <path d="M1 5l7 5 7-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+            Email
+          </a>
+          <a href="https://github.com/M6m6nto" target="_blank" rel="noopener" class="contact-btn">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M8 0C3.58 0 0 3.58 0 8a8 8 0 005.47 7.59c.4.07.55-.17.55-.38v-1.33C3.73 14.38 3.27 13 3.27 13c-.36-.92-.88-1.16-.88-1.16-.72-.49.05-.48.05-.48.8.06 1.22.82 1.22.82.71 1.21 1.86.86 2.31.66.07-.52.28-.86.51-1.06-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.67 7.67 0 012-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.19c0 .21.15.46.55.38A8 8 0 0016 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      &copy; 2026 Vladislav Poddubotski
+    </div>
+  </footer>
+
+</body>
+</html>

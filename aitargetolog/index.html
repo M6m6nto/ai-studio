@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Targetolog — AI-Powered Ads Manager for Facebook & Instagram</title>
+  <meta name="description" content="AI Targetolog is your AI media buyer for Facebook and Instagram ads. Built for small and medium businesses that can't afford a dedicated media buyer." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0B0F19;
+      --surface: #131A2A;
+      --border: rgba(255,255,255,.08);
+      --text: #E6EAF2;
+      --muted: #8A94A8;
+      --accent-start: #2D7DFF;
+      --accent-end: #2DD4BF;
+      --radius: 1rem;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .gradient-text {
+      background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(11,15,25,.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .wordmark {
+      font-size: 1.125rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: .9rem;
+      font-weight: 500;
+      color: var(--muted);
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: .55rem 1.25rem;
+      border-radius: 999px;
+      font-size: .875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity .2s, transform .15s;
+      border: none;
+    }
+    .btn:hover { opacity: .9; transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+
+    .btn-primary {
+      background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
+      color: #fff;
+    }
+
+    .btn-lg {
+      padding: .75rem 2rem;
+      font-size: 1rem;
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: .25s;
+    }
+
+    @media (max-width: 680px) {
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 64px;
+        left: 0; right: 0;
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        padding: 1rem 1.5rem 1.5rem;
+        gap: 1.25rem;
+      }
+      .hamburger { display: flex; }
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      padding: 6rem 0 5rem;
+      overflow: hidden;
+    }
+
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    @media (max-width: 780px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .hero { padding: 4rem 0 3rem; }
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(45,125,255,.12);
+      border: 1px solid rgba(45,125,255,.3);
+      border-radius: 999px;
+      padding: .3rem .85rem;
+      font-size: .8rem;
+      font-weight: 600;
+      color: #6BACFF;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #6BACFF;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .3; }
+    }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -.03em;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 440px;
+      margin-bottom: 2rem;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-note {
+      font-size: .8rem;
+      color: var(--muted);
+    }
+
+    /* ─── DASHBOARD MOCKUP ─── */
+    .dashboard-mockup {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      position: relative;
+      box-shadow: 0 24px 64px rgba(0,0,0,.45);
+    }
+
+    .mockup-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .mockup-dots {
+      display: flex;
+      gap: 5px;
+    }
+    .mockup-dots span {
+      width: 10px; height: 10px; border-radius: 50%;
+    }
+    .mockup-dots span:nth-child(1) { background: #FF5F56; }
+    .mockup-dots span:nth-child(2) { background: #FFBD2E; }
+    .mockup-dots span:nth-child(3) { background: #27C93F; }
+
+    .mockup-title {
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .campaign-card {
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border);
+      border-radius: .75rem;
+      padding: 1rem;
+      margin-bottom: .75rem;
+    }
+
+    .campaign-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: .875rem;
+    }
+
+    .campaign-name {
+      font-size: .8rem;
+      font-weight: 600;
+    }
+
+    .status-dot {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      font-size: .7rem;
+      color: #27C93F;
+      font-weight: 500;
+    }
+    .status-dot::before {
+      content: '';
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #27C93F;
+    }
+
+    /* CSS Bar chart */
+    .bar-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      height: 48px;
+      margin-bottom: .875rem;
+    }
+
+    .bar {
+      flex: 1;
+      border-radius: 3px 3px 0 0;
+      background: linear-gradient(180deg, var(--accent-start), rgba(45,125,255,.3));
+      transition: opacity .2s;
+    }
+    .bar:hover { opacity: .8; }
+    .bar.accent {
+      background: linear-gradient(180deg, var(--accent-end), rgba(45,212,191,.3));
+    }
+
+    .campaign-metrics {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .metric {
+      display: flex;
+      flex-direction: column;
+    }
+    .metric-val {
+      font-size: .8rem;
+      font-weight: 700;
+    }
+    .metric-label {
+      font-size: .65rem;
+      color: var(--muted);
+    }
+
+    .ai-callout {
+      display: flex;
+      align-items: flex-start;
+      gap: .65rem;
+      background: rgba(45,125,255,.1);
+      border: 1px solid rgba(45,125,255,.25);
+      border-radius: .75rem;
+      padding: .875rem 1rem;
+      margin-top: .25rem;
+    }
+
+    .ai-icon {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .75rem;
+      flex-shrink: 0;
+    }
+
+    .ai-callout-text {
+      font-size: .78rem;
+      color: #C5D5FF;
+      line-height: 1.5;
+    }
+    .ai-callout-text strong {
+      display: block;
+      color: var(--text);
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      margin-bottom: .25rem;
+      color: #6BACFF;
+    }
+
+    /* ─── SECTION COMMONS ─── */
+    section { padding: 5rem 0; }
+
+    .section-label {
+      font-size: .8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--accent-start);
+      margin-bottom: .75rem;
+    }
+
+    h2 {
+      font-size: clamp(1.6rem, 3.5vw, 2.25rem);
+      font-weight: 800;
+      letter-spacing: -.025em;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .section-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin-bottom: 3rem;
+    }
+
+    /* ─── HOW IT WORKS ─── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 680px) {
+      .steps { grid-template-columns: 1fr; }
+    }
+
+    .step-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      position: relative;
+      transition: border-color .25s, transform .25s;
+    }
+    .step-card:hover {
+      border-color: rgba(45,125,255,.4);
+      transform: translateY(-3px);
+    }
+
+    .step-num {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .8rem;
+      font-weight: 800;
+      margin-bottom: 1.25rem;
+    }
+
+    .step-icon {
+      font-size: 1.75rem;
+      margin-bottom: .75rem;
+    }
+
+    .step-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: .5rem;
+    }
+
+    .step-card p {
+      font-size: .875rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .connector {
+      display: none;
+    }
+
+    /* ─── FEATURES ─── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+    }
+
+    @media (max-width: 780px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .features-grid { grid-template-columns: 1fr; }
+    }
+
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      transition: border-color .25s, transform .25s;
+    }
+    .feature-card:hover {
+      border-color: rgba(45,212,191,.35);
+      transform: translateY(-3px);
+    }
+
+    .feature-icon {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+      font-size: .95rem;
+      font-weight: 700;
+      margin-bottom: .5rem;
+    }
+
+    .feature-card p {
+      font-size: .85rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ─── STATUS BAND ─── */
+    .status-band {
+      background: linear-gradient(90deg, rgba(45,125,255,.12), rgba(45,212,191,.12));
+      border-top: 1px solid rgba(45,125,255,.2);
+      border-bottom: 1px solid rgba(45,212,191,.2);
+      text-align: center;
+      padding: 3rem 1.5rem;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(45,125,255,.15);
+      border: 1px solid rgba(45,125,255,.35);
+      border-radius: 999px;
+      padding: .35rem 1rem;
+      font-size: .8rem;
+      font-weight: 600;
+      color: #6BACFF;
+      margin-bottom: 1rem;
+    }
+    .status-pill::before {
+      content: '';
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #6BACFF;
+      animation: pulse 2s infinite;
+    }
+
+    .status-band h2 { margin-bottom: .5rem; }
+    .status-band p { color: var(--muted); max-width: 480px; margin: 0 auto; }
+
+    /* ─── WAITLIST ─── */
+    #waitlist { padding: 5rem 0; }
+
+    .waitlist-inner {
+      max-width: 520px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .waitlist-inner h2 { margin-bottom: .75rem; }
+    .waitlist-inner p { color: var(--muted); margin-bottom: 2rem; }
+
+    .form-row {
+      display: flex;
+      gap: .75rem;
+    }
+
+    @media (max-width: 480px) {
+      .form-row { flex-direction: column; }
+    }
+
+    .form-row input[type="email"] {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: .75rem 1.25rem;
+      font-size: .9rem;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      outline: none;
+      transition: border-color .2s;
+    }
+    .form-row input[type="email"]::placeholder { color: var(--muted); }
+    .form-row input[type="email"]:focus {
+      border-color: rgba(45,125,255,.6);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-copy {
+      font-size: .8rem;
+      color: var(--muted);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      font-size: .8rem;
+      color: var(--muted);
+      transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--text); }
+
+    /* ─── DIVIDERS ─── */
+    .section-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="container">
+      <div class="nav-inner">
+        <a href="./" class="wordmark">AI Targetolog</a>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#how-it-works">How it works</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#waitlist"><button class="btn btn-primary">Join waitlist</button></a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <div class="hero-badge">Launching soon — join the waitlist</div>
+          <h1>Your AI media buyer for <span class="gradient-text">Facebook & Instagram</span> ads</h1>
+          <p class="hero-sub">Small and medium businesses deserve smart ad management too. AI Targetolog analyzes your campaigns, finds wasted spend, and applies optimizations — no agency required.</p>
+          <div class="hero-cta-row">
+            <a href="#waitlist"><button class="btn btn-primary btn-lg">Join the waitlist</button></a>
+            <a href="#how-it-works" class="hero-note">See how it works &darr;</a>
+          </div>
+        </div>
+
+        <!-- DASHBOARD MOCKUP -->
+        <div class="hero-visual">
+          <div class="dashboard-mockup">
+            <div class="mockup-header">
+              <div class="mockup-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <span class="mockup-title">AI Targetolog — Campaigns</span>
+              <span></span>
+            </div>
+
+            <div class="campaign-card">
+              <div class="campaign-card-top">
+                <span class="campaign-name">Summer Sale 2026</span>
+                <span class="status-dot">Active</span>
+              </div>
+
+              <!-- CSS bar chart -->
+              <div class="bar-chart">
+                <div class="bar" style="height:38%"></div>
+                <div class="bar" style="height:52%"></div>
+                <div class="bar" style="height:45%"></div>
+                <div class="bar" style="height:70%"></div>
+                <div class="bar accent" style="height:88%"></div>
+                <div class="bar accent" style="height:78%"></div>
+                <div class="bar accent" style="height:95%"></div>
+              </div>
+
+              <div class="campaign-metrics">
+                <div class="metric">
+                  <span class="metric-val">Ad Set A</span>
+                  <span class="metric-label">Higher CPA</span>
+                </div>
+                <div class="metric">
+                  <span class="metric-val" style="color:#2DD4BF">Ad Set B</span>
+                  <span class="metric-label">Lower CPA</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="ai-callout">
+              <div class="ai-icon">&#x2728;</div>
+              <div class="ai-callout-text">
+                <strong>AI Recommendation</strong>
+                Shift budget to Ad Set B — lower CPA detected. Apply optimization to reduce wasted spend.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- HOW IT WORKS -->
+  <section id="how-it-works">
+    <div class="container">
+      <div class="section-label">How it works</div>
+      <h2>Three steps to smarter ad spend</h2>
+      <p class="section-sub">From connection to optimization in minutes. No media buying expertise required.</p>
+
+      <div class="steps">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-icon">&#x1F517;</div>
+          <h3>Connect your Meta ad account</h3>
+          <p>Authorize AI Targetolog via official Meta (Facebook) OAuth. Your credentials stay with Meta — we only receive the permissions you grant.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-icon">&#x1F9E0;</div>
+          <h3>AI analyzes campaigns &amp; finds waste</h3>
+          <p>Powered by Google Gemini, the engine reviews your campaign data, identifies underperforming ad sets, and generates concrete optimization strategies.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div class="step-icon">&#x26A1;</div>
+          <h3>Apply recommendations in one click</h3>
+          <p>Review AI suggestions in the web dashboard or Telegram bot, then apply changes instantly — budget shifts, creative swaps, audience refinements.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="container">
+      <div class="section-label">Features</div>
+      <h2>Everything you need.<br/>Nothing you don't.</h2>
+      <p class="section-sub">A focused toolkit designed for SMB owners who want results, not complexity.</p>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">&#x1F52D;</div>
+          <h3>Campaign analysis powered by Gemini</h3>
+          <p>Google Gemini reviews your full campaign structure and metrics to surface actionable insights and strategy recommendations.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#x270F;&#xFE0F;</div>
+          <h3>AI-generated ad copy &amp; creatives</h3>
+          <p>GPT-4o-mini writes compelling ad copy and DALL-E generates on-brand visual creatives — ready to test in your campaigns.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#x1F4B0;</div>
+          <h3>Budget optimization recommendations</h3>
+          <p>Identify which ad sets drain budget without results and reallocate spend toward what actually converts — automatically suggested.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#x1F916;</div>
+          <h3>Telegram bot control</h3>
+          <p>Manage campaigns, receive alerts, and apply optimizations directly from Telegram — no need to open a dashboard every time.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#x1F510;</div>
+          <h3>Official Meta API integration</h3>
+          <p>Built on the official Meta Graph API with OAuth authentication. Safe, compliant, and aligned with Meta advertising policies.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">&#x1F3AF;</div>
+          <h3>Built for SMBs — no agency required</h3>
+          <p>Designed from the ground up for businesses that don't have a dedicated media buyer. Powerful intelligence, simple interface.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- STATUS BAND -->
+  <div class="status-band">
+    <div class="status-pill">Early access</div>
+    <h2>Launching soon</h2>
+    <p>AI Targetolog is in final preparation. Join the waitlist and be among the first to get access when we open the doors.</p>
+  </div>
+
+  <!-- WAITLIST -->
+  <section id="waitlist">
+    <div class="container">
+      <div class="waitlist-inner">
+        <div class="section-label" style="text-align:center">Waitlist</div>
+        <h2>Get early access</h2>
+        <p>Leave your email and we'll reach out the moment AI Targetolog is ready for you.</p>
+
+        <form
+          action="https://formsubmit.co/vladislav.poddubotski@gmail.com"
+          method="POST"
+        >
+          <input type="hidden" name="_subject" value="AI Targetolog waitlist" />
+          <input type="hidden" name="_captcha" value="false" />
+          <div class="form-row">
+            <input
+              type="email"
+              name="email"
+              placeholder="your@email.com"
+              required
+              aria-label="Email address"
+            />
+            <button type="submit" class="btn btn-primary btn-lg">Join waitlist</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <span class="footer-copy">&copy; 2026 AI Targetolog &mdash; <a href="../" style="color:var(--muted);transition:color .2s" onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">A product by Vladislav Poddubotski</a></span>
+        <nav class="footer-links">
+          <a href="./privacy.html">Privacy Policy</a>
+          <a href="./terms.html">Terms of Service</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+    // Close mobile menu on link click
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+  </script>
+</body>
+</html>
