@@ -312,18 +312,13 @@
     }
 
     .founder-avatar {
-      width: 88px;
-      height: 88px;
-      border-radius: 50%;
+      width: 104px;
+      height: 104px;
+      border-radius: 20px;
       flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      font-weight: 700;
-      letter-spacing: .02em;
-      color: #fff;
-      background: linear-gradient(135deg, var(--botgen-a), var(--target-b));
+      object-fit: cover;
+      border: 1px solid var(--border);
+      box-shadow: 0 0 0 1px rgba(124,92,255,.25), 0 8px 30px rgba(0,0,0,.35);
     }
 
     .founder-info { flex: 1; min-width: 260px; }
@@ -609,7 +604,7 @@
       <h2 class="section-title">Building in public</h2>
 
       <div class="founder-box">
-        <div class="founder-avatar">VP</div>
+        <img class="founder-avatar" src="./assets/founder.jpg" alt="Vladislav Poddubotski" width="104" height="104" />
         <div class="founder-info">
           <div class="founder-name">Vladislav Poddubotski</div>
           <div class="founder-role">Solo founder &amp; engineer</div>
