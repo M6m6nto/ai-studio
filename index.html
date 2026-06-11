@@ -360,6 +360,61 @@
       .founder-socials { flex-direction: row; width: 100%; }
     }
 
+    /* ── STORY ── */
+    .story { padding: 0 0 72px; }
+
+    .story-list {
+      position: relative;
+      margin-top: 8px;
+      padding-left: 28px;
+    }
+
+    .story-list::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--botgen-a), var(--target-b), var(--pair-a));
+      opacity: .5;
+    }
+
+    .story-item { position: relative; padding: 0 0 28px; }
+    .story-item:last-child { padding-bottom: 0; }
+
+    .story-item::before {
+      content: '';
+      position: absolute;
+      left: -27px;
+      top: 7px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid var(--muted);
+    }
+
+    .story-item:last-child::before { border-color: var(--target-b); background: var(--target-b); }
+
+    .story-year {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .story-text {
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.65;
+      max-width: 640px;
+    }
+
+    .story-text em { color: var(--muted); font-style: normal; }
+
     /* ── FOOTER ── */
     footer {
       border-top: 1px solid var(--border);
@@ -385,6 +440,7 @@
       <div class="nav-links">
         <a href="#products">Products</a>
         <a href="#founder">Founder</a>
+        <a href="#story">Story</a>
         <a href="#contact">Contact</a>
       </div>
     </div>
@@ -505,7 +561,7 @@
         <div class="founder-info">
           <div class="founder-name">Vladislav Poddubotski</div>
           <div class="founder-role">Solo founder &amp; engineer</div>
-          <p class="founder-bio">I design, build and ship every product in this studio myself — AI-assisted engineering end to end. I share the journey openly: what's being built, what worked, what didn't.</p>
+          <p class="founder-bio">I design, build and ship every product in this studio myself — AI-assisted engineering end to end. I share the journey openly: what's being built, what worked, what didn't. From hacking VK at 12 to going bankrupt before 30 and building back with AI — <a href="#story" style="color:var(--text);text-decoration:underline;text-underline-offset:3px;">the full story is below</a>.</p>
         </div>
         <div class="founder-socials">
           <a href="https://t.me/poddubotsky_ai" target="_blank" rel="noopener" class="contact-btn">
@@ -523,6 +579,48 @@
             Instagram — poddubotsky_ai
           </a>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section class="story" id="story">
+    <div class="container">
+      <p class="section-label">My story</p>
+      <h2 class="section-title">Bankrupt before 30, building again</h2>
+
+      <div class="story-list">
+
+        <div class="story-item">
+          <div class="story-year">2011 — Zhodino, Belarus</div>
+          <p class="story-text">At 12, I noticed VK's password-recovery SMS arrived with no sender and no context — and realized the biggest vulnerability in any system is people, not code. My video exposing it hit <strong>1.2M views in two days</strong> before the channel was taken down. VK quietly added "never share this code" to their SMS soon after.</p>
+        </div>
+
+        <div class="story-item">
+          <div class="story-year">Age 15</div>
+          <p class="story-text">Dropped out of programming college after the first year — they were teaching Pascal, and I was already building websites and running online ads for clients, making $1–2K a month. <em>"Mom, don't cry. I have my own wave, and somewhere on it, success is waiting for me."</em></p>
+        </div>
+
+        <div class="story-item">
+          <div class="story-year">Age 16–21</div>
+          <p class="story-text">Invested everything back into my own education and launched venture after venture in partnerships — from e-commerce to local services. Some worked, some taught expensive lessons in branding and law.</p>
+        </div>
+
+        <div class="story-item">
+          <div class="story-year">Age 22</div>
+          <p class="story-text">Earned my first apartment outright — 85 m², good district, two balconies — producing online businesses. Traveled from Dubai to the Maldives. Felt invulnerable. <em>That feeling was the setup.</em></p>
+        </div>
+
+        <div class="story-item">
+          <div class="story-year">2024</div>
+          <p class="story-text">Went all-in on crypto altcoins. The market crashed; I sold the apartment to buy the dip. Lost effectively everything. Bankrupt before 30 — exactly like the smart books I read as a kid said to be.</p>
+        </div>
+
+        <div class="story-item">
+          <div class="story-year">Now — Vietnam, 2026</div>
+          <p class="story-text">14-hour days, head-first into AI. Running an AI agency and a marketing agency, and shipping this studio's products solo with AI-assisted engineering — building in public this time. <em>The path is the point; the finish line is boring.</em></p>
+        </div>
+
       </div>
     </div>
   </section>
