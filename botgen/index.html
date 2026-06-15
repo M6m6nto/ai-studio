@@ -702,8 +702,12 @@
         action="https://formsubmit.co/vladislav.poddubotski@gmail.com"
         method="POST"
       >
-        <input type="hidden" name="_subject" value="BotGEN waitlist">
+        <input type="hidden" name="_subject" value="BotGEN waitlist — new signup">
         <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_autoresponse" value="Thanks for joining the BotGEN waitlist! You're on the list and we'll email you the moment early access opens. — Vladislav">
+        <!-- honeypot: bots fill this, humans never see it -->
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
         <input
           type="email"
           name="email"
@@ -733,6 +737,51 @@
     </div>
   </div>
 </footer>
+
+<script>
+  /* Progressive-enhancement waitlist capture.
+     Without JS the form still POSTs to FormSubmit (graceful fallback).
+     With JS we submit via AJAX, keep the visitor on-brand, block honeypot
+     spam, and emit an analytics event for funnel tracking. */
+  (function () {
+    var form = document.querySelector('#waitlist form');
+    if (!form || !window.fetch) return;
+    var endpoint = form.getAttribute('action').replace('formsubmit.co/', 'formsubmit.co/ajax/');
+
+    form.addEventListener('submit', function (e) {
+      var honey = form.querySelector('input[name="_honey"]');
+      if (honey && honey.value) { e.preventDefault(); return; } // silently drop bots
+      e.preventDefault();
+
+      var btn = form.querySelector('button[type="submit"]');
+      if (btn) { btn.disabled = true; btn.dataset.label = btn.textContent; btn.textContent = 'Joining…'; }
+
+      fetch(endpoint, { method: 'POST', headers: { 'Accept': 'application/json' }, body: new FormData(form) })
+        .then(function (r) { return r.json(); })
+        .then(function () { showSuccess(); track(); })
+        .catch(function () { form.submit(); }); // fall back to native POST
+    });
+
+    function showSuccess() {
+      var input = form.querySelector('input[name="email"]');
+      var email = input ? input.value : '';
+      form.innerHTML =
+        '<div role="status" style="padding:18px 20px;border:1px solid var(--border);' +
+        'border-left:3px solid var(--accent-a);border-radius:12px;background:rgba(124,92,255,.08);' +
+        'color:var(--text);font-weight:600;text-align:center">✓ You\'re on the list' +
+        (email ? ' — we\'ll email <span style="color:var(--accent-b)">' + email + '</span>' : '') +
+        ' the moment we launch.</div>';
+    }
+
+    function track() {
+      try {
+        if (window.dataLayer) window.dataLayer.push({ event: 'waitlist_signup', product: 'botgen' });
+        if (typeof window.gtag === 'function') window.gtag('event', 'waitlist_signup', { product: 'botgen' });
+        if (typeof window.plausible === 'function') window.plausible('waitlist_signup');
+      } catch (e) {}
+    }
+  })();
+</script>
 
 </body>
 </html>

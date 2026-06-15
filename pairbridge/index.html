@@ -703,8 +703,12 @@
         action="https://formsubmit.co/vladislav.poddubotski@gmail.com"
         method="POST"
       >
-        <input type="hidden" name="_subject" value="PairBridge waitlist" />
+        <input type="hidden" name="_subject" value="PairBridge waitlist — new signup" />
         <input type="hidden" name="_captcha" value="false" />
+        <input type="hidden" name="_template" value="table" />
+        <input type="hidden" name="_autoresponse" value="Thanks for joining the PairBridge waitlist! You're on the list and we'll let you know the moment your bridge is ready. — Vladislav" />
+        <!-- honeypot: bots fill this, humans never see it -->
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true" />
         <input
           class="waitlist-input"
           type="email"
@@ -733,6 +737,48 @@
       <span class="footer-copy">© 2026 PairBridge. Founded 2026.</span>
     </div>
   </footer>
+
+<script>
+  /* Progressive-enhancement waitlist capture (see botgen for notes). */
+  (function () {
+    var form = document.querySelector('#waitlist form');
+    if (!form || !window.fetch) return;
+    var endpoint = form.getAttribute('action').replace('formsubmit.co/', 'formsubmit.co/ajax/');
+
+    form.addEventListener('submit', function (e) {
+      var honey = form.querySelector('input[name="_honey"]');
+      if (honey && honey.value) { e.preventDefault(); return; }
+      e.preventDefault();
+
+      var btn = form.querySelector('button[type="submit"]');
+      if (btn) { btn.disabled = true; btn.dataset.label = btn.textContent; btn.textContent = 'Joining…'; }
+
+      fetch(endpoint, { method: 'POST', headers: { 'Accept': 'application/json' }, body: new FormData(form) })
+        .then(function (r) { return r.json(); })
+        .then(function () { showSuccess(); track(); })
+        .catch(function () { form.submit(); });
+    });
+
+    function showSuccess() {
+      var input = form.querySelector('input[name="email"]');
+      var email = input ? input.value : '';
+      form.innerHTML =
+        '<div role="status" style="padding:18px 20px;border:1px solid var(--border);' +
+        'border-left:3px solid var(--accent-1);border-radius:12px;background:rgba(244,114,182,.08);' +
+        'color:var(--text);font-weight:600;text-align:center">✓ You\'re on the list' +
+        (email ? ' — we\'ll email <span style="color:var(--accent-1)">' + email + '</span>' : '') +
+        ' the moment your bridge is ready.</div>';
+    }
+
+    function track() {
+      try {
+        if (window.dataLayer) window.dataLayer.push({ event: 'waitlist_signup', product: 'pairbridge' });
+        if (typeof window.gtag === 'function') window.gtag('event', 'waitlist_signup', { product: 'pairbridge' });
+        if (typeof window.plausible === 'function') window.plausible('waitlist_signup');
+      } catch (e) {}
+    }
+  })();
+</script>
 
 </body>
 </html>
