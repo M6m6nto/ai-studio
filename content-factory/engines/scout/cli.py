@@ -105,6 +105,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     item["topic"]["ref_post_id"] = chosen["post_id"]
     item["topic"]["ref_url"] = chosen["url"]
+    item["topic"]["ref_account"] = chosen["account"]
     item["topic"]["er"] = chosen["er"]
     item["topic"]["viral_ratio"] = chosen["viral_ratio"]
     registry.save_item(item)
