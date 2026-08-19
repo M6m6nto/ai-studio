@@ -1,0 +1,8 @@
+{
+  "name": "content-factory",
+  "private": true,
+  "description": "Node-часть контент-завода: рендер карусели через Playwright (screenshot.cjs).",
+  "devDependencies": {
+    "playwright": "^1.56.1"
+  }
+}

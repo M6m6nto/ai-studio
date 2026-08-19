@@ -1,0 +1,8 @@
+content-factory/.env
+content-factory/secrets/
+content-factory/registry/items/*/raw/
+content-factory/registry/items/*/frames/
+content-factory/registry/items/*/audio/
+__pycache__/
+*.pyc
+.pytest_cache/
